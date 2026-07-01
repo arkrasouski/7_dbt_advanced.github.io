@@ -50,6 +50,8 @@ jobs:
 
   check_is_valid:
     runs-on: self-hosted
+    env:
+      GITHUB_USER: ${{ github.actor }}
     needs: build_manifest
     steps:
       - name: Скачиваем код
