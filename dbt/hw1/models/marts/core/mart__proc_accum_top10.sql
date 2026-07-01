@@ -12,7 +12,6 @@ SELECT
     processor_speed,
     battery_capacity
 FROM {{ ref('int__smartphones_combination') }}
-WHERE num_cores > 0
 ORDER BY combination_count DESC
 LIMIT 10
 
