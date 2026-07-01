@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Скачиваем код
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Устанавливаем Python
         uses: actions/setup-python@v5
@@ -44,6 +46,7 @@ jobs:
         with:
           name: dbt-dev-manifest
           path: dbt/hw1/artifacts/dev/manifest.json
+          retention-days: 1  # храним недолго
 
   check_is_valid:
     runs-on: self-hosted
@@ -51,6 +54,8 @@ jobs:
     steps:
       - name: Скачиваем код
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Устанавливаем Python
         uses: actions/setup-python@v5
@@ -82,13 +87,13 @@ jobs:
       - name: Тестируем измененные модели
         run: |
           cd dbt/hw1
-          dbt test --select "state:modified+" --defer --state artifacts/dev
+          dbt test --select "state:modified+" --defer --state ./artifacts/dev
        # state:modified+ = все что изменилось плюс зависимости
        # --defer все остальное сравниваем со --state artifacts/dev с последним запуском
 
       - name: Запуск измененной модели
         run: |
           cd dbt/hw1
-          dbt run --target ci --select "state:modified+" --defer --state artifacts/dev
+          dbt run --target ci --select "state:modified+" --defer --state ./artifacts/dev
 
        # --target ci = целевая система загрузки из ~/.dbt/profiles.yml
