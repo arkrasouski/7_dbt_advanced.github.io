@@ -4,10 +4,10 @@ on:
   push:
     branches: [main]
     paths:
-      - 'models/**'
-      - 'macros/**'
-      - 'dbt_project.yml'
-      - 'docs/**' # какие файлы должны измениться, чтобы запустился workflow
+      - 'dbt/hw1/models/**'
+      - 'dbt/hw1/macros/**'
+      - 'dbt/hw1/dbt_project.yml'
+      - 'dbt/hw1/docs/**' # какие файлы должны измениться, чтобы запустился workflow
 
 jobs:
   deploy-docs:
@@ -44,9 +44,9 @@ jobs:
       - name: Готовим файлы для развертывания
         run: |
           mkdir -p docs-build
-          cp -r target/* docs-build/
+          cp -r dbt/hw1/target/* docs-build/
           # Копируем основную документацию в корень
-          cp target/index.html docs-build/index.html
+          cp dbt/hw1/target/index.html docs-build/index.html
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
