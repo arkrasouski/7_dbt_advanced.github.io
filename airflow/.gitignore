@@ -1,0 +1,5 @@
+.env
+config/airflow.cfg
+
+__pycache__/
+logs/
